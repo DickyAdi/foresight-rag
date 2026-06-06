@@ -2,6 +2,8 @@
 
 > A theory-to-implementation guide for structured LLM tool sequencing
 
+> **Note:** This is the canonical *theory*. The actual build follows the plan in [`setup-and-plan.md`](setup-and-plan.md), which **refines or diverges** from this theory in a few places — notably a **gold-free** in-loop validator (gold is used only for evaluation metrics, never inside the loop), a **per-question relative quantile** relevance threshold instead of the absolute `0.5` shown below, and a **grounded-rollout** foresight strategy that scores candidate queries against real retrievals. Where they differ, the plan governs the implementation.
+
 ---
 
 ## Core Idea
