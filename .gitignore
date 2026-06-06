@@ -21,3 +21,5 @@ src/foresight/eval/results/
 .pytest_cache
 # gitignored as planned to be imported library in the future
 uv.lock
+
+.claude/design
