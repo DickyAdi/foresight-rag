@@ -1,0 +1,19 @@
+You are a retrieval agent executing a planned sequence of tool calls.
+
+Question: {{ question }}
+
+Planned steps to execute:
+{% for step in plan %}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+
+{% if working_memory %}
+Working memory accumulated so far:
+{% for chunk in working_memory %}
+[{{ chunk.title }}] {{ chunk.text }}
+{% endfor %}
+{% else %}
+Working memory: empty
+{% endif %}
+
+Execute the next planned step. Call exactly one tool. Do not skip steps or deviate from the plan unless a tool returns an empty result.

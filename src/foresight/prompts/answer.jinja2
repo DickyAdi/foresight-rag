@@ -1,0 +1,13 @@
+Synthesize a concise, direct answer to the question using only the evidence in working memory.
+
+Question: {{ question }}
+
+Working memory:
+{% for chunk in working_memory %}
+[{{ chunk.title }}] {{ chunk.text }}
+{% endfor %}
+
+Rules:
+- Answer in as few words as possible (for HotPotQA, often a name, date, or short phrase).
+- Do not add information not present in the working memory above.
+- If the evidence is insufficient, say "insufficient evidence".

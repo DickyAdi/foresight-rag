@@ -1,0 +1,23 @@
+You are a semantic alignment checker. Your job is to assess whether the final answer addresses the original question — NOT to verify factual correctness.
+
+Original question: {{ question }}
+
+Final answer: {{ final_answer }}
+
+{% if working_memory %}
+Evidence used:
+{% for chunk in working_memory %}
+[{{ chunk.title }}] {{ chunk.text }}
+{% endfor %}
+{% endif %}
+
+Assess alignment on a 0.0–1.0 scale:
+- 1.0: answer directly and completely addresses the question
+- 0.5: answer is partially relevant but incomplete or slightly off-target
+- 0.0: answer does not address the question at all
+
+Respond in JSON:
+{
+  "alignment_score": 0.0,
+  "reasoning": "<one sentence explanation>"
+}
