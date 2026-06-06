@@ -1,6 +1,6 @@
 """Tests that Jinja2 prompt templates render without errors given expected variables."""
 import pytest
-from foresight.prompts import render
+from foresight.core.prompts import render
 
 
 TEMPLATE_VARS = {

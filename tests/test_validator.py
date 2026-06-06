@@ -1,7 +1,8 @@
 """Unit tests for the Layer 3 state validator (deterministic, no LLM, no network)."""
 import pytest
 
-# TODO: from foresight.validator import validate_state_structural, validate_state_semantic, validate_state
+# TODO: from foresight.core.validator import Validator
+# TODO: from foresight.core.relevance import RelevanceScorer
 
 
 # --- validate_state_structural ---
