@@ -16,3 +16,5 @@ wheels/
 src/foresight/eval/results/
 
 .DS_Store
+
+.claude/developer
