@@ -14,3 +14,5 @@ wheels/
 
 # Eval results
 src/foresight/eval/results/
+
+.DS_Store
