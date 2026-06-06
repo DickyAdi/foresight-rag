@@ -18,3 +18,6 @@ src/foresight/eval/results/
 .DS_Store
 
 .claude/developer
+.pytest_cache
+# gitignored as planned to be imported library in the future
+uv.lock
