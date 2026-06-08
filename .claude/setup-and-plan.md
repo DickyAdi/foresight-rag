@@ -71,13 +71,13 @@ tests/  test_validator.py · test_load_hotpot.py · test_prompts.py
 ## Build order (incremental, testable)
 
 1. ✅ Scaffold + ports/adapters layout in place; deps lean; prompts done.
-2. `config.py` (done), `adapters/factory.py` + `openrouter_chat.py` + `openrouter_embeddings.py` — verify one OpenRouter chat round-trip **and** the `/embeddings` endpoint.
-3. `data/load_hotpot.py` + test — load, filter, adapt, cache to `cases.json`. **Verify HF load path first.**
-4. `adapters/chroma_store.py` + `orchestration/tools.py` — per-question Chroma (per-sentence, `title:sentence` prefix), `retrieve`/`finish`, vector reuse.
-5. `core/relevance.py` + `core/validator.py` + `test_validator.py` — **pure code, fully unit-tested before any graph wiring.**
-6. `core/strategies.py` + `core/planner.py` (both foresight strategies) + `core/reflector.py`.
-7. `orchestration/graph.py` (MPC loop, router, `MAX_HOPS`/`MAX_REPLANS`) + `orchestration/baseline_graph.py`.
-8. `eval/metrics.py`, `eval/run_eval.py` — wire it together; 3 arms.
+2. ✅ `config.py` (done) + `adapters/factory.py` + `openrouter_chat.py` + `openrouter_embeddings.py` (+ `_secrets.py` helper) written. ⏳ Live-verify only (key needed solely to *run* the check, not to develop): one OpenRouter chat round-trip **and** the `/embeddings` endpoint.
+3. ✅ `data/load_hotpot.py` + test written (cache-gated, offline; tests skip until `cases.json` exists). ⏳ HF load path unverified — needs one online run to build/commit `cases.json`.
+4. ✅ `adapters/chroma_store.py` (offline add/query/get_embeddings/drop round-trip verified, cosine space) + `orchestration/tools.py` (`retrieve` dedup by (title,sent_id); `finish` baseline-only) — per-question Chroma (per-sentence, `title:sentence` prefix), `retrieve`/`finish`, vector reuse.
+5. ✅ `core/relevance.py` (empirical per-question quantile, numpy cosine) + `core/validator.py` (structural→relevance gate, gold-free, no `MISSING_SOURCE`) + `test_validator.py` — **fully unit-tested offline (9 tests), no graph wiring.**
+6. ✅ `core/strategies.py` (Imagined + Grounded) + `core/planner.py` (max_hops / allow_direct_answer guards) + `core/reflector.py` — offline-tested with fake ChatModel/ports (8 tests). Added `CandidateQuery`/`PlannerCandidates` to `types.py`; rewrote `planner.jinja2` to MPC K-candidate (Pydantic owns schema). Grounded ranks by real top retrieved cosine (see note below).
+7. ✅ `orchestration/graph.py` (MPC loop; advance/replan/finalize routers; max_hops via Planner, max_replans via router; elective finalize) + `baseline_graph.py` (prebuilt ReAct) + `case_store.py` (per-question pool population) + `factory.make_raw_chat`. Relevance scored vs the QUESTION (design/04 "one function, two consumers" — Option A; confirmed required, not optional). Offline-tested: routers + graph compiles (6 tests). Live run pending key. NB: pass `recursion_limit` ≈ max_hops·(max_replans+1)·nodes at invoke (step 8).
+8. ✅ `eval/metrics.py` (EM/F1 SQuAD-normalized + retrieval recall/precision; offline-tested, 6 tests) + `eval/run_eval.py` (`--n/--mode/--strategy`; per-case store build→arms→metrics→drop; aggregates + console table + `results/<ts>.json`; per-arm try/except). Code complete; **live run pending key** (smoke `--n 3` first).
 
 ## Verification
 
