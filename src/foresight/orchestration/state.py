@@ -20,6 +20,7 @@ class AgentState(TypedDict, total=False):
 
     # Validator
     validation: ValidationResult
+    validation_feedback: str | None   # delta fed back to the planner on re-plan
 
     # Guards
     hop: int
