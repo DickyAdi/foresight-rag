@@ -5,7 +5,7 @@ constructor rather than importing globals, so they stay testable and override-ab
 See design/09-models-and-config.md and design/12-implementation-architecture.md.
 """
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Literal
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
