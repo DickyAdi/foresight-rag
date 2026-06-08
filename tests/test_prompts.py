@@ -10,7 +10,7 @@ TEMPLATE_VARS = {
         "question": "Who is the CEO of the company that makes Python?",
         "working_memory": [],
         "beam_width": 3,
-        "max_steps": 3,
+        "feedback": None,
     },
     "executor": {
         "question": "Who is the CEO of the company that makes Python?",
